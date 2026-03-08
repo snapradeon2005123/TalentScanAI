@@ -21,6 +21,13 @@ python app.py
 
 Open: http://127.0.0.1:5000
 
+## Run Locally
+
+git clone https://github.com/snapradeon2005123/TalentScanAI.git
+cd TalentScanAI
+pip install -r requirements.txt
+python app.py
+
 ## Screenshots
 
 ![Home](screenshots/home.png)
