@@ -25,7 +25,6 @@ stateDiagram-v2
     state P3 {
         PhD_Progress: You maintain F-1 Status (2029-2035)
         H1B_Attempts: Employer enters her into H-1B Lottery
-        note right of H1B_Attempts: 3 attempts total\n(2030, 2031, 2032)
     }
     
     P3 --> P4 : 2032: STEM OPT Ends
@@ -39,7 +38,6 @@ stateDiagram-v2
         
         Backup --> File_F2 : File Form I-539 within 60-day grace period
         File_F2: She shifts to F-2 Dependent Status
-        note bottom of File_F2: Safety Net: She stays legally in USA\nTradeoff: Cannot work until 2035
     }
     
     Work_Visa --> Future : 2035 & Beyond
