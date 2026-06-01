@@ -5,8 +5,8 @@ graph TD
     subgraph Phase_1 [Phase 1: Academic & Geographic Entry 2027 - 2029]
         Track_A1[TRACK A:<br>MSQE Completion at ISI India<br>Timeline: 2027 - 2029]
         
-        Track_B1[TRACK B:<br>Employment in India<br>Timeline: 2027 - 2028]
-        Track_B2[TRACK B:<br>US MS Program Entry on F-1 Visa<br>Timeline: 2028 - 2030]
+        Track_B1[TRACK B GF:<br>Employment in India<br>Timeline: 2027 - 2028]
+        Track_B2[TRACK B GF:<br>US MS Program Entry on F-1 Visa<br>Timeline: 2028 - 2030]
         
         Track_B1 --> Track_B2
     end
@@ -17,18 +17,34 @@ graph TD
     subgraph Phase_2 [Phase 2: US Status Maintenance 2029 - 2033]
         Track_A2[TRACK A:<br>PhD Program Entry on F-1 Visa<br>Timeline: 2029 - 2035]
         
-        Track_B3[TRACK B:<br>MS Graduation & 3-Year STEM OPT Employment<br>Timeline: 2030 - 2033]
+        Track_B3[TRACK B GF:<br>MS Graduation & 3-Year STEM OPT Employment<br>Timeline: 2030 - 2033]
     end
     
     Track_A1 --> Track_A2
     Track_B2 --> Track_B3
 
     %% ---------------------------------------------
-    %% PHASE 3: STATUS EXPIRATION FORK (2033)
+    %% PHASE 3: ANNUAL LOTTERY REGISTRATIONS
     %% ---------------------------------------------
-    Decision{2033: STEM OPT Expiration}
-    Track_B3 --> Decision
+    subgraph Phase_3 [Phase 3: Annual H-1B Lottery Cycles]
+        L1[2031 Lottery Registration:<br>Independent Attempt 1]
+        L2[2032 Lottery Registration:<br>Independent Attempt 2]
+        L3[2033 Lottery Registration:<br>Independent Attempt 3]
+        
+        L1 -- Not Selected --> L2
+        L2 -- Not Selected --> L3
+    end
+    
+    Track_B3 --> L1
 
+    %% ---------------------------------------------
+    %% DECISION FORK (POST-LOTTERY 3)
+    %% ---------------------------------------------
+    Decision{Final Result After 3 Lottery Cycles}
+    L1 -- Selected Year 1 --> H1B_App
+    L2 -- Selected Year 2 --> H1B_App
+    L3 -- Selected Year 3 --> Decision
+    
     %% SCENARIO A: H-1B SELECTION
     subgraph Scenario_A [Scenario A: H-1B Selected]
         H1B_App[Change of Status to Independent H-1B Work Visa]
@@ -39,7 +55,7 @@ graph TD
 
     %% SCENARIO B: H-1B NON-SELECTION
     subgraph Scenario_B [Scenario B: H-1B Non-Selection]
-        Action_Marry[Execute Legal Marriage in 2033 for Status Safety Net]
+        Action_Marry[Marry in 2033 for Status Safety Net]
         F2_Filing[File Form I-539 Change of Status: F-1 to F-2 Dependent]
         Work_Restriction[CRITICAL CONSTRAINT:<br>F-2 Visa Status Permits US Residency But Prohibits Work Authorization]
         
