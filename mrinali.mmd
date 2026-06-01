@@ -1,0 +1,53 @@
+stateDiagram-v2
+    direction TB
+
+    state "Phase 1: Academic Preparation (2027 - 2029)" as P1
+    state "Phase 2: Post-Graduation Pivot (2029)" as P2
+    state "Phase 3: The OPT & PhD Window (2029 - 2032)" as P3
+    state "Phase 4: The 2032 Fork in the Road" as P4
+    
+    [*] --> P1
+    
+    state P1 {
+        You_ISI: You complete MSQE at ISI
+        GF_USA: Girlfriend completes MS in USA
+    }
+    
+    P1 --> P2 : Graduation (2029)
+    
+    state P2 {
+        You_F1: You move to USA on F-1 Visa for PhD
+        Wife_OPT: She gets married & starts 3-Year STEM OPT
+    }
+    
+    P2 --> P3
+    
+    state P3 {
+        PhD_Progress: You maintain F-1 Status (2029-2035)
+        H1B_Attempts: Employer enters her into H-1B Lottery
+        note right of H1B_Attempts: 3 attempts total\n(2030, 2031, 2032)
+    }
+    
+    P3 --> P4 : 2032: STEM OPT Ends
+    
+    state P4 {
+        state "Scenario A: H-1B Approved" as Success
+        state "Scenario B: Lottery Fails" as Backup
+        
+        Success --> Work_Visa : Transitions to independent H-1B
+        Work_Visa: She continues working legally without career gap
+        
+        Backup --> File_F2 : File Form I-539 within 60-day grace period
+        File_F2: She shifts to F-2 Dependent Status
+        note bottom of File_F2: Safety Net: She stays legally in USA\nTradeoff: Cannot work until 2035
+    }
+    
+    Work_Visa --> Future : 2035 & Beyond
+    File_F2 --> Future : 2035 & Beyond
+    
+    state Future {
+        Green_Card: You finish PhD -> Transition to H-1B or Green Card
+        Wife_Work: She returns to workforce (via H-4 EAD or Green Card)
+    }
+
+    Future --> [*]
