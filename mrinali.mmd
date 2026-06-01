@@ -1,53 +1,66 @@
 stateDiagram-v2
     direction TB
 
-    state "Phase 1: Dual Roots in India (2027 - 2029)" as P1
-    state "Phase 2: The Alignment (2029 - 2031)" as P2
-    state "Phase 3: Her OPT & Your PhD (2031 - 2034)" as P3
-    state "Phase 4: The 2034 Decision Point" as P4
-    
-    [*] --> P1
-    
-    state P1 {
-        You_ISI: You complete MSQE at ISI (2027-2029)
-        GF_India: She gains work experience / stays in India
-    }
-    
-    P1 --> P2 : Both fly to USA in 2029
-    
-    state P2 {
-        You_PhD_Start: You start your PhD on F-1 Visa
-        GF_MS_Start: She starts her 2-year MS on F-1 Visa
-    }
-    
-    P2 --> P3 : Her Graduation (2031)
-    
-    state P3 {
-        PhD_Cont: You continue PhD research (F-1 status)
-        Wife_OPT: She works on 3-Year STEM OPT (2031-2034)
-        Lottery: Employer enters her into H-1B Lottery
-    }
-    
-    P3 --> P4 : 2034: Her STEM OPT Expires
-    
-    state P4 {
-        state "Scenario A: H-1B Approved" as Success
-        state "Scenario B: H-1B Denied" as Backup
-        
-        Success --> Independent : She transitions to H-1B Visa
-        Independent: Stay Single or Marry Later (No career interruption)
-        
-        Backup --> Emergency_Marriage : Marry in 2034 as Legal Safety Net
-        Emergency_Marriage --> F2_Status : File Form I-539 for F-2 Dependent Visa
-        F2_Status: She stays legally in USA under your PhD (Pauses work)
-    }
-    
-    Independent --> Future : 2035 Horizon
-    F2_Status --> Future : 2035 Horizon
-    
-    state Future {
-        PhD_Done: You finish PhD in 2035
-        Endgame: Transition together to corporate H-1B or Green Card
-    }
+    %% ---------------------------------------------
+    %% INITIAL SETUP
+    %% ---------------------------------------------
+    [*] --> 2027_2029_Prep
 
-    Future --> [*]
+    state "Phase 1: Academic & Flight Options (2027 - 2029)" as 2027_2029_Prep
+    You_ISI: You are in India finishing MSQE at ISI (2027-2029)
+    GF_Options: GF Choose Flight Window (2027, 2028, or 2029)
+    GF_US_MS: GF moves to USA early & starts MS on F-1
+
+    2027_2029_Prep --> 2029_Convergence
+
+    %% ---------------------------------------------
+    %% CONVERGENCE POINT
+    %% ---------------------------------------------
+    state "Phase 2: The 2029 Convergence" as 2029_Convergence
+    You_Fly_US: 2029: You fly to USA & start PhD on F-1 Visa
+    GF_Graduates: 2029-2031: GF finishes MS / starts 3-Year STEM OPT Job
+
+    2029_Convergence --> 2029_2032_Tracks
+
+    %% ---------------------------------------------
+    %% PARALLEL TRACKS WINDOW
+    %% ---------------------------------------------
+    state "Phase 3: The Independent Parallel Tracks" as 2029_2032_Tracks
+    Your_Track: YOUR TRACK:\n• Maintain F-1 PhD Status\n• Focus on Research (2029-2035)
+    Her_Track: HER TRACK:\n• Works full-time on STEM OPT\n• Employer enters her in H-1B Lotteries
+
+    2029_2032_Tracks --> 2032_Decision
+
+    %% ---------------------------------------------
+    %% THE FORK IN THE ROAD
+    %% ---------------------------------------------
+    state "Phase 4: The 2032 OPT Expiration Fork" as 2032_Decision
+    
+    state "Scenario A: H-1B Approved" as OptA
+    state "Scenario B: H-1B Denied" as OptB
+
+    2032_Decision --> OptA
+    2032_Decision --> OptB
+
+    %% Track A Flow
+    OptA --> Her_H1B : Transition to H-1B Work Visa
+    Her_H1B --> Safe_Single : She stays independent
+    Safe_Single: Status: Safe\nMarriage Choice: Postponed or personal choice later
+
+    %% Track B Flow
+    OptB --> Emergency_Marriage : Emergency Marriage Net (2032)
+    Emergency_Marriage --> File_F2 : File Form I-539 Change of Status
+    File_F2 --> F2_Status : Transitions to F-2 Dependent Status
+    F2_Status: Status: Safe in USA\nTradeoff: Must pause working until 2035
+
+    %% ---------------------------------------------
+    %% ENDGAME
+    %% ---------------------------------------------
+    Safe_Single --> Phase_5_Endgame
+    F2_Status --> Phase_5_Endgame
+
+    state "Phase 5: The 2035 Horizon" as Phase_5_Endgame
+    You_Graduate: You graduate with PhD
+    Joint_Future: Both transition to industry H-1B / EB Green Card tracks together
+
+    Phase_5_Endgame --> [*]
