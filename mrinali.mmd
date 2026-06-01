@@ -1,51 +1,61 @@
-stateDiagram-v2
-    direction TB
-
-    state "Phase 1: Academic Preparation (2027 - 2029)" as P1
-    state "Phase 2: Post-Graduation Pivot (2029)" as P2
-    state "Phase 3: The OPT & PhD Window (2029 - 2032)" as P3
-    state "Phase 4: The 2032 Fork in the Road" as P4
-    
-    [*] --> P1
-    
-    state P1 {
-        You_ISI: You complete MSQE at ISI
-        GF_USA: Girlfriend completes MS in USA
-    }
-    
-    P1 --> P2 : Graduation (2029)
-    
-    state P2 {
-        You_F1: You move to USA on F-1 Visa for PhD
-        Wife_OPT: She gets married & starts 3-Year STEM OPT
-    }
-    
-    P2 --> P3
-    
-    state P3 {
-        PhD_Progress: You maintain F-1 Status (2029-2035)
-        H1B_Attempts: Employer enters her into H-1B Lottery
-    }
-    
-    P3 --> P4 : 2032: STEM OPT Ends
-    
-    state P4 {
-        state "Scenario A: H-1B Approved" as Success
-        state "Scenario B: Lottery Fails" as Backup
+graph TD
+    %% ---------------------------------------------
+    %% PHASE 1: TIMELINE START
+    %% ---------------------------------------------
+    subgraph Phase_1 [Phase 1: Your ISI Degree & Her US Move 2027 - 2029]
+        You_ISI[YOUR TRACK:<br>Finishing MSQE at ISI India<br>Timeline: 2027 - 2029]
         
-        Success --> Work_Visa : Transitions to independent H-1B
-        Work_Visa: She continues working legally without career gap
+        Wife_India[HER TRACK:<br>Works 1 Year in India<br>Timeline: 2027 - 2028]
+        Wife_Fly[HER TRACK:<br>Flies to USA for MS Degree<br>Timeline: 2028 - 2030]
         
-        Backup --> File_F2 : File Form I-539 within 60-day grace period
-        File_F2: She shifts to F-2 Dependent Status
-    }
-    
-    Work_Visa --> Future : 2035 & Beyond
-    File_F2 --> Future : 2035 & Beyond
-    
-    state Future {
-        Green_Card: You finish PhD -> Transition to H-1B or Green Card
-        Wife_Work: She returns to workforce (via H-4 EAD or Green Card)
-    }
+        Wife_India --> Wife_Fly
+    end
 
-    Future --> [*]
+    %% ---------------------------------------------
+    %% PHASE 2: CONVERGENCE
+    %% ---------------------------------------------
+    subgraph Phase_2 [Phase 2: Parallel Tracks in the USA 2029 - 2033]
+        You_PhD[YOUR TRACK:<br>Starts PhD on F-1 Visa<br>Timeline: 2029 - 2035]
+        
+        Wife_OPT[HER TRACK:<br>Graduates MS & Starts 3-Year STEM OPT Job<br>Timeline: 2030 - 2033]
+    end
+    
+    You_ISI --> You_PhD
+    Wife_Fly --> Wife_OPT
+
+    %% ---------------------------------------------
+    %% PHASE 3: THE FORK IN THE ROAD (2033)
+    %% ---------------------------------------------
+    Decision{2033: Her 3-Year STEM OPT Ends}
+    Wife_OPT --> Decision
+
+    %% SCENARIO A: SUCCESS
+    subgraph Scenario_A [Scenario A: H-1B Approved]
+        H1B_Win[Transition to H-1B Work Visa]
+        Stay_Single[Remains Single or Marries Later<br>Status: Safe & Continues Working]
+        
+        H1B_Win --> Stay_Single
+    end
+
+    %% SCENARIO B: FALLBACK
+    subgraph Scenario_B [Scenario B: H-1B Denied]
+        Emergency_Marriage[Marries You in 2033 for Emergency Safety Net]
+        F2_Visa[Shifts to F-2 Dependent Visa via Form I-539]
+        Career_Tradeoff[CRITICAL CAREER TRADEOFF:<br>F-2 Visa DOES NOT Allow Work Authorization]
+        
+        Emergency_Marriage --> F2_Visa
+        F2_Visa --> Career_Tradeoff
+    end
+
+    Decision -- Lottery Wins --> H1B_Win
+    Decision -- Lottery Fails --> Emergency_Marriage
+
+    %% ---------------------------------------------
+    %% PHASE 4: THE HORIZON
+    %% ---------------------------------------------
+    subgraph Phase_4 [Phase 4: The 2035 Horizon]
+        Endgame[You Finish PhD in 2035<br>Both Transition to Industry H-1B / Green Card Tracks Together]
+    end
+
+    Stay_Single --> Endgame
+    Career_Tradeoff --> Endgame
