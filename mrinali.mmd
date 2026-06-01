@@ -1,61 +1,51 @@
 graph TD
     %% ---------------------------------------------
-    %% PHASE 1: TIMELINE START
+    %% PHASE 1: INITIAL SEPARATION
     %% ---------------------------------------------
-    subgraph Phase_1 [Phase 1: Your ISI Degree & Her US Move 2027 - 2029]
-        You_ISI[YOUR TRACK:<br>Finishing MSQE at ISI India<br>Timeline: 2027 - 2029]
+    subgraph Phase_1 [Phase 1: Academic & Geographic Entry 2027 - 2029]
+        Track_A1[TRACK A:<br>MSQE Completion at ISI India<br>Timeline: 2027 - 2029]
         
-        Wife_India[HER TRACK:<br>Works 1 Year in India<br>Timeline: 2027 - 2028]
-        Wife_Fly[HER TRACK:<br>Flies to USA for MS Degree<br>Timeline: 2028 - 2030]
+        Track_B1[TRACK B:<br>Employment in India<br>Timeline: 2027 - 2028]
+        Track_B2[TRACK B:<br>US MS Program Entry on F-1 Visa<br>Timeline: 2028 - 2030]
         
-        Wife_India --> Wife_Fly
+        Track_B1 --> Track_B2
     end
 
     %% ---------------------------------------------
-    %% PHASE 2: CONVERGENCE
+    %% PHASE 2: PARALLEL US STATUS
     %% ---------------------------------------------
-    subgraph Phase_2 [Phase 2: Parallel Tracks in the USA 2029 - 2033]
-        You_PhD[YOUR TRACK:<br>Starts PhD on F-1 Visa<br>Timeline: 2029 - 2035]
+    subgraph Phase_2 [Phase 2: US Status Maintenance 2029 - 2033]
+        Track_A2[TRACK A:<br>PhD Program Entry on F-1 Visa<br>Timeline: 2029 - 2035]
         
-        Wife_OPT[HER TRACK:<br>Graduates MS & Starts 3-Year STEM OPT Job<br>Timeline: 2030 - 2033]
+        Track_B3[TRACK B:<br>MS Graduation & 3-Year STEM OPT Employment<br>Timeline: 2030 - 2033]
     end
     
-    You_ISI --> You_PhD
-    Wife_Fly --> Wife_OPT
+    Track_A1 --> Track_A2
+    Track_B2 --> Track_B3
 
     %% ---------------------------------------------
-    %% PHASE 3: THE FORK IN THE ROAD (2033)
+    %% PHASE 3: STATUS EXPIRATION FORK (2033)
     %% ---------------------------------------------
-    Decision{2033: Her 3-Year STEM OPT Ends}
-    Wife_OPT --> Decision
+    Decision{2033: STEM OPT Expiration}
+    Track_B3 --> Decision
 
-    %% SCENARIO A: SUCCESS
-    subgraph Scenario_A [Scenario A: H-1B Approved]
-        H1B_Win[Transition to H-1B Work Visa]
-        Stay_Single[Remains Single or Marries Later<br>Status: Safe & Continues Working]
+    %% SCENARIO A: H-1B SELECTION
+    subgraph Scenario_A [Scenario A: H-1B Selected]
+        H1B_App[Change of Status to Independent H-1B Work Visa]
+        Maintain_Ind[Status: Maintained<br>Employment: Continuous<br>Marital Status: Unchanged / Deferred]
         
-        H1B_Win --> Stay_Single
+        H1B_App --> Maintain_Ind
     end
 
-    %% SCENARIO B: FALLBACK
-    subgraph Scenario_B [Scenario B: H-1B Denied]
-        Emergency_Marriage[Marries You in 2033 for Emergency Safety Net]
-        F2_Visa[Shifts to F-2 Dependent Visa via Form I-539]
-        Career_Tradeoff[CRITICAL CAREER TRADEOFF:<br>F-2 Visa DOES NOT Allow Work Authorization]
+    %% SCENARIO B: H-1B NON-SELECTION
+    subgraph Scenario_B [Scenario B: H-1B Non-Selection]
+        Action_Marry[Execute Legal Marriage in 2033 for Status Safety Net]
+        F2_Filing[File Form I-539 Change of Status: F-1 to F-2 Dependent]
+        Work_Restriction[CRITICAL CONSTRAINT:<br>F-2 Visa Status Permits US Residency But Prohibits Work Authorization]
         
-        Emergency_Marriage --> F2_Visa
-        F2_Visa --> Career_Tradeoff
+        Action_Marry --> F2_Filing
+        F2_Filing --> Work_Restriction
     end
 
-    Decision -- Lottery Wins --> H1B_Win
-    Decision -- Lottery Fails --> Emergency_Marriage
-
-    %% ---------------------------------------------
-    %% PHASE 4: THE HORIZON
-    %% ---------------------------------------------
-    subgraph Phase_4 [Phase 4: The 2035 Horizon]
-        Endgame[You Finish PhD in 2035<br>Both Transition to Industry H-1B / Green Card Tracks Together]
-    end
-
-    Stay_Single --> Endgame
-    Career_Tradeoff --> Endgame
+    Decision -- H-1B Selected --> H1B_App
+    Decision -- H-1B Not Selected --> Action_Marry
